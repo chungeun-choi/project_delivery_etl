@@ -7,7 +7,7 @@ The project is a side project to easily support the process of collection proces
 
 
 
-<img src="https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png"  width="600" height="340"/>
+<p align="center"><img src="https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png"  width="600" height="340"/></p>
 
 
 
