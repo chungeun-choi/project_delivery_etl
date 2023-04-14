@@ -5,6 +5,9 @@
 
 The project is a side project to easily support the process of collection process ( extract, conversion, storage) 
 
+![https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png](https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png)
+
+
 해당 프로젝트는 cloudera 서비스를 참고하였습니다
 
 The project was referring to Clouder service
@@ -32,9 +35,9 @@ Receive a GUI environment to support collectible structures
 
 ## 변환 [**Transformation**]
 
-수집된 데이터는 특정한 조건 (정규식, 또는 문자열 처리) 등을 활용하여 데이터 웨어하우스 구축 및 데이터 마트를 구축할 수 있도록 GUI 환경을 제공 받습니다 
+수집된 데이터는 특정한 조건 (정규식, 또는 문자열 처리) 등을 활용하여 데이터 적재를 위한 모델링을 지원합니다
 
-The collected data warehouse provides GUI environment to build data warehouse, or string processing) environment to build data warehouse
+Collected data leverages specific conditions (regular expression, or string processing) to support modeling for data loading
 
 </br>
 
