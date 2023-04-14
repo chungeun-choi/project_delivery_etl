@@ -5,7 +5,10 @@
 
 The project is a side project to easily support the process of collection process ( extract, conversion, storage) 
 
-![https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png](https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png)
+
+
+<img src="https://user-images.githubusercontent.com/65060314/231968077-2403d85f-a501-47e1-b778-0ab688a4aa3e.png"  width="600" height="340"/>
+
 
 
 해당 프로젝트는 cloudera 서비스를 참고하였습니다
