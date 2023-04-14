@@ -3,7 +3,7 @@
 
 해당 프로젝트는 수집 프로세스(추출, 변환, 저장)의 과정을 쉽게 지원하기위한 사이드 프로젝트입니다
 
-The project is a side project to easily support the process of collection process ( extract, conversion, storage) 
+The project is a side project to easily support the process of collection process ( Extraction, Transformation, Load) 
 
 
 
