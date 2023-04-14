@@ -1,6 +1,5 @@
 # project_delivery_etl
 
----
 
 해당 프로젝트는 수집 프로세스(추출, 변환, 저장)의 과정을 쉽게 지원하기위한 사이드 프로젝트입니다
 
@@ -9,6 +8,9 @@ The project is a side project to easily support the process of collection proces
 해당 프로젝트는 cloudera 서비스를 참고하였습니다
 
 The project was referring to Clouder service
+
+<br>
+<br>
 
 # ETL(추출하고 변환하고 저장) 파이프라인에 대한 UI 제공
 
@@ -26,11 +28,15 @@ Based on the computing environment (VM, compute) information for collection, the
 
 Receive a GUI environment to support collectible structures
 
+</br>
+
 ## 변환 [**Transformation**]
 
 수집된 데이터는 특정한 조건 (정규식, 또는 문자열 처리) 등을 활용하여 데이터 웨어하우스 구축 및 데이터 마트를 구축할 수 있도록 GUI 환경을 제공 받습니다 
 
 The collected data warehouse provides GUI environment to build data warehouse, or string processing) environment to build data warehouse
+
+</br>
 
 ## 저장 [Load]
 
@@ -38,14 +44,19 @@ The collected data warehouse provides GUI environment to build data warehouse, o
 
 The data finished data will be safely managed to manage various settings for safeThese settings will be stored through additional settings according to the utilization of data retention institutions, data
 
+</br>
+
 > **추후 개선사항**
 수집 프로세스로 사용할 기술스택 elastic stack을 통해 개발이 되지만 추상화 작업을 통해 다른 데이터 기술 스택도 용이할 수 있도록 개발하는 것이 목적입니다
 It is developed through an elastic stack of technologies to be used as a collection process, but the purpose is to develop other data technology stacks through abstraction
 > 
 
+
+<br>
+<br>  
+
 # 사용 프로세스
 
----
 
 해당 프로젝트를 통해 구성하기위해 아래와 같은 과정을 거쳐 진행하게됩니다
 
