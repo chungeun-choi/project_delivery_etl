@@ -1,7 +1,5 @@
 # DB connection 관리 로직
 
-# Data modeling이 완료된 데이터 베이스 생성 프로세스
-
 ## 1. Data modeling 진행 후 Aliembic을 통해 마이그레이션 진행
 
 ---
