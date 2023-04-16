@@ -13,6 +13,8 @@ fastapi = "^0.95.1"
 uvicorn = "^0.21.1"
 python-dotenv = "^1.0.0"
 psycopg2-binary = "^2.9.6"
+sqlmodel = "^0.0.8"
+orjson = "^3.8.10"
 
 
 [build-system]

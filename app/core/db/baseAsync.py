@@ -1,4 +1,6 @@
 from asyncio import current_task
+
+from sqlmodel import SQLModel
 from app.core.config import Settings
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -28,4 +30,6 @@ session: Union[AsyncSession, async_scoped_session] = async_scoped_session(
 )
 
 
-Base = declarative_base()
+metadata = SQLModel.metadata
+#metadata.naming_convention = NAMING_CONVENTION
+Base = declarative_base(metadata=metadata)
