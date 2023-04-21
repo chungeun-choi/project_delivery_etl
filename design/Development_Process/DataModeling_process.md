@@ -79,6 +79,158 @@ session: Union[AsyncSession, async_scoped_session] = async_scoped_session(
     ```
     
 
-## 3. Entity 정의 및 모델링 작업 진행
+## 3. Entity 정의 작업 진행
 
 ---
+
+Entity 정의는 SQLModel을 상속받아 생성하며 sqlAlchemy와 함께 연동하여 사용할 수 있도록 구성
+
+SQLModel 튜토리얼 가이드 : [https://sqlmodel.tiangolo.com/tutorial/](https://sqlmodel.tiangolo.com/tutorial/)
+
+### baseModel
+
+해당 클래스는 모든 entity 모델에 공통적으로 들어가게되는 설정과 필드를 추상화 해둔 클래스로서 josn에대한 인코딩*디코딩에 대한 설정, 데이터를 생성한 시점과 변경된 시점에 대한 내용이 적용되어지게 됩니다
+
+- 클래스
+    
+    ```python
+    class ModelBase(SQLModel):
+        class Config:
+            json_loads = orjson.loads
+            json_dumps = orjson_dumps
+            json_encoders = {datetime: datetime_convert}  
+    
+           
+        id: Optional[int] = Field(
+            default=None, sa_column=Column(BigInteger, primary_key=True, autoincrement=True)
+        )
+    
+        created_at: Optional[datetime] = Field(
+            default=None,
+            sa_column=Column(
+                type_=TIMESTAMP(timezone=True),
+                default=func.now(),
+                server_default=func.now(),
+                nullable=False,
+            ),
+        )
+    
+        updated_at: Optional[datetime] = Field(
+            default=None,
+            sa_column=Column(
+                type_=TIMESTAMP(timezone=True),
+                default=func.now(),
+                server_default=func.now(),
+                onupdate=func.now(),
+                nullable=False,
+            ),
+        )
+    ```
+    
+- helper 함수
+    
+    ```python
+    def orjson_dumps(v, *, default):
+        
+        return orjson.dumps(v, default=default).decode()
+    
+    def datetime_convert(dt: datetime) -> str:
+        if not dt.tzinfo:
+            dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+    
+        return datetime.astimezone(dt).strftime("%Y-%m-%d %H:%M:%S %z")
+    ```
+    
+    <aside>
+    💡 **orjson 사용이유**
+    orjson은 json 데이터를 인코딩하거나 디코딩하기위한 패키지이다, C 확장 모듈로 만들어져있어 python 기본모듈인 json은 사용하는 것 보다 훨씬 빠른 속도를 보여줌에 따라 orjson을 사용하여 인코딩, 디코딩 작업을 진행한다
+    
+    </aside>
+    
+
+### entity 정의 방법
+
+![https://user-images.githubusercontent.com/65060314/233533768-34e769a4-347e-42bd-bcfe-12344c74ef59.png](https://user-images.githubusercontent.com/65060314/233533768-34e769a4-347e-42bd-bcfe-12344c74ef59.png)
+
+### testing
+
+생성한 entity는 database와의 정상적인 연결 및 동작이되는지 확인하기위해 테스트를 진행합니다 테스트는 CRUD 항목에 대해서 진행하며 테스트 파일을 ‘./test/app/core/db’에 python 모듈을 생성하여 함수를 생성하여 구현합니다
+
+- connection 객체를 생성하기 위한 모듈
+    
+    해당 모듈의 engine 변수를 참조하여 테스트하는 모듈에서 connection 객체를 생성할 수 있도록 정의합니다
+    
+    ```python
+    from sqlmodel import create_engine
+    from app.core.config import Settings
+    
+    SQLALCHEMY_DATABASE_URL = f"postgresql://{Settings.DB_USER}:{Settings.DB_PASS}@{Settings.DB_HOST}:{Settings.DB_PORT}/{Settings.DB_NAME}"
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    ```
+    
+
+[예제]
+
+```python
+from app.entities.model_connection_info import ConnectionInfo
+from sqlmodel import Session, create_engine,select ,SQLModel
+from dbConnectio import engine
+
+SQLModel.metadata.create_all(engine)
+
+def _PostConnectionInfo():
+    connection1 = ConnectionInfo(
+        connection_name="test_conenction",
+        host="test@101.1.1.1",
+        port=8080,
+        user="testuser",
+        password="test11!",
+    )
+
+    with Session(engine) as session:
+        session.add(connection1)
+        session.commit()
+
+def _GetConnectionInfo():
+    with Session(engine) as session:
+        results = select(ConnectionInfo)
+        result = session.exec(results).first()
+        print(result)
+
+        return result
+
+def _UpdateConnectionInfo():
+    with Session(engine) as session:
+        update = select(ConnectionInfo).where(ConnectionInfo.connection_name == "test_connection")
+        
+        results = session.exec(update)
+        result = results.one()
+
+        result.host = "10.101.134.1"
+
+        session.add(result)
+        session.commit()
+
+def _DeleteConnectionInfo():
+    delete = select(ConnectionInfo).where(ConnectionInfo.connection_name=="test_conenction")
+    
+    with Session(engine) as session:
+        results= session.exec(delete)
+
+        result = results.one()
+        print(result)
+
+        session.delete(result)
+        session.commit()
+
+if __name__ == "__main__":
+
+    _PostConnectionInfo()
+
+    _GetConnectionInfo()
+
+    _UpdateConnectionInfo()
+    
+
+    _DeleteConnectionInfo()
+```
