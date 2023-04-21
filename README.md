@@ -78,3 +78,10 @@ It is developed through an elastic stack of technologies to be used as a collect
 5. ‘저장’ 과정 정의 및 설정
 	Define and set 'Load' courses
 ```
+
+<br>
+
+# 설계서
+
+데이터 모델링 : [링크](design/Data_Modeling/README.md)  
+flow chart 정보 : 
