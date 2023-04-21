@@ -1,4 +1,4 @@
-# DB connection 관리 로직
+# 데이터베이스 관련 개발 로직
 
 ## 1. Data modeling 진행 후 Aliembic을 통해 마이그레이션 진행
 
