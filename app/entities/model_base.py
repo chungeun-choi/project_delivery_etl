@@ -8,14 +8,13 @@ from sqlmodel import Column, Field, SQLModel
 
 
 def orjson_dumps(v, *, default):
-    # orjson.dumps returns bytes, to match standard json.dumps we need to decode
+    
     return orjson.dumps(v, default=default).decode()
 
 def datetime_convert(dt: datetime) -> str:
     if not dt.tzinfo:
         dt = dt.replace(tzinfo=ZoneInfo("UTC"))
 
-    # return dt.strftime("%Y-%m-%dT%H:%M:%S%z")
     return datetime.astimezone(dt).strftime("%Y-%m-%d %H:%M:%S %z")
 
 

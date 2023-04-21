@@ -5,16 +5,9 @@ sys.path.append("/Users/cucuridas/Desktop/project_delivery_etl")
 
 from app.entities.model_connection_info import ConnectionInfo
 from sqlmodel import Session, create_engine,select ,SQLModel
-from app.core.config import Settings
+from dbConnectio import engine
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{Settings.DB_USER}:{Settings.DB_PASS}@{Settings.DB_HOST}:{Settings.DB_PORT}/{Settings.DB_NAME}"
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SQLModel.metadata.create_all(engine)
-
-def _GetConnectionInfo():
-    with Session(engine) as session:
-        result = select(ConnectionInfo)
-        return session.exec(result).first()
 
 def _PostConnectionInfo():
     connection1 = ConnectionInfo(
@@ -27,6 +20,27 @@ def _PostConnectionInfo():
 
     with Session(engine) as session:
         session.add(connection1)
+        session.commit()
+
+
+def _GetConnectionInfo():
+    with Session(engine) as session:
+        results = select(ConnectionInfo)
+        result = session.exec(results).first()
+        print(result)
+
+        return result
+
+def _UpdateConnectionInfo():
+    with Session(engine) as session:
+        update = select(ConnectionInfo).where(ConnectionInfo.connection_name == "test_connection")
+        
+        results = session.exec(update)
+        result = results.one()
+
+        result.host = "10.101.134.1"
+
+        session.add(result)
         session.commit()
 
 def _DeleteConnectionInfo():
@@ -44,9 +58,13 @@ def _DeleteConnectionInfo():
 
 if __name__ == "__main__":
 
-   # _PostConnectionInfo()
+    _PostConnectionInfo()
 
-    # print(_GetConnectionInfo())
+    _GetConnectionInfo()
+
+    _UpdateConnectionInfo()
+    
 
     _DeleteConnectionInfo()
+    
 
