@@ -20,10 +20,9 @@ class ConnectionInfo(ModelBase,table=True):
        sa_column=Column(String(200),nullable=False)
     )
 
-    port: str = Field(
+    port: int = Field(
        description="연결 컴퓨팅 환경의 port 정보",
        nullable=False,
-       max_length=200,
        sa_column=Column(Integer(),nullable=False)
     )
 
