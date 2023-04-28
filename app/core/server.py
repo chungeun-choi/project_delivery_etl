@@ -15,7 +15,7 @@ fastapi 서버를 실행 시키는 파일입니다
 def createApp() -> FastAPI:
     fastApiServer = FastAPI()
     fastApiServer.include_router(connect_router)
-    
+
     return fastApiServer
 
 

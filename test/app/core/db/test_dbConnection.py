@@ -4,10 +4,11 @@ sys.path.append("/Users/cucuridas/Desktop/project_delivery_etl")
 
 
 from app.entities.model_connection_info import ConnectionInfo
-from sqlmodel import Session, create_engine,select ,SQLModel
+from sqlmodel import Session, create_engine, select, SQLModel
 from dbConnectio import engine
 
 SQLModel.metadata.create_all(engine)
+
 
 def _PostConnectionInfo():
     connection1 = ConnectionInfo(
@@ -31,10 +32,13 @@ def _GetConnectionInfo():
 
         return result
 
+
 def _UpdateConnectionInfo():
     with Session(engine) as session:
-        update = select(ConnectionInfo).where(ConnectionInfo.connection_name == "test_connection")
-        
+        update = select(ConnectionInfo).where(
+            ConnectionInfo.connection_name == "test_connection"
+        )
+
         results = session.exec(update)
         result = results.one()
 
@@ -43,11 +47,14 @@ def _UpdateConnectionInfo():
         session.add(result)
         session.commit()
 
+
 def _DeleteConnectionInfo():
-    delete = select(ConnectionInfo).where(ConnectionInfo.connection_name=="test_conenction")
-    
+    delete = select(ConnectionInfo).where(
+        ConnectionInfo.connection_name == "test_conenction"
+    )
+
     with Session(engine) as session:
-        results= session.exec(delete)
+        results = session.exec(delete)
 
         result = results.one()
         print(result)
@@ -57,14 +64,10 @@ def _DeleteConnectionInfo():
 
 
 if __name__ == "__main__":
-
     _PostConnectionInfo()
 
     _GetConnectionInfo()
 
     _UpdateConnectionInfo()
-    
 
     _DeleteConnectionInfo()
-    
-

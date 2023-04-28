@@ -21,7 +21,9 @@ sessionmaker 클래스를 통해 session 연결을 진행합니다
 
 SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{Settings.DB_USER}:{Settings.DB_PASS}@{Settings.DB_HOST}:{Settings.DB_PORT}/{Settings.DB_NAME}"
 
-engine: AsyncEngine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=True, pool_pre_ping=True)
+engine: AsyncEngine = create_async_engine(
+    SQLALCHEMY_DATABASE_URL, echo=True, pool_pre_ping=True
+)
 session_maker = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 session: Union[AsyncSession, async_scoped_session] = async_scoped_session(
@@ -31,5 +33,5 @@ session: Union[AsyncSession, async_scoped_session] = async_scoped_session(
 
 
 metadata = SQLModel.metadata
-#metadata.naming_convention = NAMING_CONVENTION
+# metadata.naming_convention = NAMING_CONVENTION
 Base = declarative_base(metadata=metadata)
