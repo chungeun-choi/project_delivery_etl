@@ -1,44 +1,44 @@
 from fastapi import APIRouter, Request, Body, Depends, Path
-from app.api.models.model_connection_info import ConnectionInfo
+from app.api.models.connectionInfo import ConnectionInfo,RequestBodyConnInfo
 from app.api.service.connectService import ConnectionInfoService
 from typing import List
 
-connect_router: APIRouter = APIRouter(tags=["team"])
-
+connect_router: APIRouter = APIRouter(tags=["connection_info"])
+con_info_obj = ConnectionInfoService()
 
 @connect_router.post(
     "/connect/register", name="connection 정보를 DB에 등록", response_model=ConnectionInfo
 )
-async def result(request: ConnectionInfo):
-    await ConnectionInfoService(request).register()
+async def register(request: ConnectionInfo):
+    await con_info_obj.register(request)
 
     return request
 
 
 @connect_router.put(
-    "/connect/update", name="등록된 conenction 정보를 수정", response_model=ConnectionInfo
+    "/connect/{connection_id}/update", name="등록된 conenction 정보를 수정", response_model=str
 )
-async def result(request: ConnectionInfo):
-    await ConnectionInfoService(request).update()
+async def update(request: RequestBodyConnInfo,connection_id:int = Path(description="Conenction id")):
+    return_value = await con_info_obj.update(request,connection_id)
 
-    return request
+    return return_value
 
 
 @connect_router.delete(
-    "/connect/delete", name="등록된 conenction 정보를 삭제", response_model=ConnectionInfo
+    "/connect/{connection_id}/delete", name="등록된 conenction 정보를 삭제", response_model=str
 )
-async def result(request: ConnectionInfo):
-    await ConnectionInfoService(request).delete()
+async def delete(connection_id: int = Path(description="Connection id")):
+    return_value = await con_info_obj.delete(connection_id)
 
-    return request
+    return return_value
 
 
 @connect_router.get(
-    "/connect/get", name="등록된 conenction 단일 정보를 조회", response_model=ConnectionInfo
+    "/connect/{connection_name}/get", name="등록된 conenction 단일 정보를 조회", response_model=ConnectionInfo
 )
-async def result(request: ConnectionInfo):
-    await ConnectionInfoService(request).get()
-    return request
+async def get(connection_name: str = Path(description="Connection name")):
+    return_value = await con_info_obj.getByName(connection_name)
+    return return_value
 
 
 @connect_router.get(
@@ -46,7 +46,7 @@ async def result(request: ConnectionInfo):
     name="등록된 conenction 모든 정보를 조회",
     response_model=List[ConnectionInfo],
 )
-async def result(request: ConnectionInfo):
-    await ConnectionInfoService(request).gets()
+async def gets():
+    return_value = await con_info_obj.gets()
 
-    return request
+    return return_value

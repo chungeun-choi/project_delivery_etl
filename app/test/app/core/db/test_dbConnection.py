@@ -3,7 +3,7 @@ import sys
 sys.path.append("/Users/cucuridas/Desktop/project_delivery_etl")
 
 
-from app.entities.model_connection_info import ConnectionInfo
+from api.models.connectionInfo import ConnectionInfo
 from sqlmodel import Session, create_engine, select, SQLModel
 from dbConnectio import engine
 

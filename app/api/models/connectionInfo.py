@@ -1,9 +1,9 @@
-from app.api.models.model_base import ModelBase
+from typing import Any, Dict, Tuple
+from app.api.models.base import ModelBase
 from sqlmodel import Field
 from sqlalchemy import Column, String, Integer, JSON
-from typing import Any
-from dataclasses import dataclass
 from pydantic import BaseModel
+import json 
 
 
 class ConnectionInfo(ModelBase, table=True):
@@ -46,16 +46,32 @@ class ConnectionInfo(ModelBase, table=True):
 
     header: str = Field(
         description="컴퓨팅환경과 연결 시 필요한 header 정보",
-        nullable=True,
         max_length=200,
         sa_column=Column(JSON(), nullable=True),
     )
 
     extra: str = Field(
         description="연결 컴퓨팅 환경의 host 정보",
-        nullable=True,
         max_length=200,
         sa_column=Column(JSON(), nullable=True),
     )
 
 
+class RequestByConnId(BaseModel):
+    connection_name : str = Field(None, description="Information you want to find through 'connection_name'")
+
+    class Config:
+        validate_assignment: bool = True
+
+
+class RequestBodyConnInfo(BaseModel):
+    host : str = Field(None,nullable=True, description="Host value")
+    port : str = Field(None,nullable=True ,description="port value")
+    user : str = Field(None,nullable=True , description="user value")
+    password : str = Field(None,nullable=True , description="password value")
+    header : str= Field(None,nullable=True , description="header value",sa_column=Column(JSON(), nullable=True))
+    extra :str = Field(None,nullable=True , description="extra value",sa_column=Column(JSON(), nullable=True))
+
+    
+    class Config:
+        validate_assignment: bool = True
