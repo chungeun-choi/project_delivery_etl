@@ -11,12 +11,12 @@ async def test_register(input: ConnectionInfo):
 
     print(value)
 
+
 # class function - update 함수 테스트
 async def test_update(input: ConnectionInfo):
     value = await ConnectionInfoService(input).update()
 
     print(value)
-
 
 
 # class function - get 함수 테스트
@@ -31,31 +31,29 @@ async def test_delete(input: ConnectionInfo):
     print(value)
 
 
-
 if __name__ == "__main__":
     ## True value
     true_value = {
         "input": ConnectionInfo(
-            connection_name="Ther is no",
-            host="localhost",
-            port=9200,
+            connection_name="test_obj_0430",
+            host="192.168.1.2",
+            port=9300,
             user="elastic",
-            password="test11!",
+            password="test21!",
         )
     }
 
-    # # register
+    ## register
     # asyncio.run(test_register(**true_value))
 
-    # # get
+    ## get
     # asyncio.run(test_get(ConnectionInfo(connection_name="Ther is no")))
 
-    ## update
+    # update
     asyncio.run(test_update(**true_value))
 
-    ## delete
-    #asyncio.run(test_delete(ConnectionInfo(connection_name="Ther is no")))
-
+    # delete
+    # asyncio.run(test_delete(ConnectionInfo(connection_name="Ther is no")))
 
     # ## False value
     # false_value1 = {

@@ -4,7 +4,7 @@ sys.path.append("/Users/cucuridas/Desktop/chatbot_tg")
 sys.path.append("/home/cucuridas/chatbot")
 from typing import Union
 from fastapi import FastAPI
-from app.api.v1.connect import connect_router
+from app.api.routers.connect import connect_router
 
 
 """

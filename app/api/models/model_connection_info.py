@@ -1,6 +1,9 @@
-from app.entities.model_base import ModelBase
+from app.api.models.model_base import ModelBase
 from sqlmodel import Field
 from sqlalchemy import Column, String, Integer, JSON
+from typing import Any
+from dataclasses import dataclass
+from pydantic import BaseModel
 
 
 class ConnectionInfo(ModelBase, table=True):
@@ -54,3 +57,5 @@ class ConnectionInfo(ModelBase, table=True):
         max_length=200,
         sa_column=Column(JSON(), nullable=True),
     )
+
+
