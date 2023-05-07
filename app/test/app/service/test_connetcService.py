@@ -3,12 +3,13 @@ import sys
 sys.path.append("/Users/cucuridas/Desktop/project_delivery_etl")
 import asyncio
 from app.api.service.connectService import *
+from app.api.schema.conenctionInfo import ReqConnectionInfo
 
 test_obj = ConnectionInfoService()
 
 
 # class function - register 함수 테스트
-async def test_register(input: ConnectionInfo):
+async def test_register(input: ReqConnectionInfo):
     value = await test_obj.register(input)
 
     print(value)
@@ -42,7 +43,7 @@ async def test_delete(connetion_name: str):
 if __name__ == "__main__":
     ## True value
     true_value = {
-        "input": ConnectionInfo(
+        "input": ReqConnectionInfo(
             connection_name="test_obj_0430",
             host="192.243.1.2",
             port=9200,
@@ -52,21 +53,19 @@ if __name__ == "__main__":
     }
 
     ## register
-    #asyncio.run(test_register(**true_value))
+    asyncio.run(test_register(**true_value))
 
     ## get
-    #asyncio.run(test_get("test_obj_0430"))
+    # asyncio.run(test_get("test_obj_0430"))
 
     # gets
-    #asyncio.run(test_gets())
-
+    # asyncio.run(test_gets())
 
     # update
-    asyncio.run(test_update(**true_value))
+    # asyncio.run(test_update(**true_value))
 
     # delete
-    #asyncio.run(test_delete("test_obj_0430_2"))
-
+    # asyncio.run(test_delete("test_obj_0430_2"))
 
     # ## False value
     # false_value1 = {
