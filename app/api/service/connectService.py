@@ -1,5 +1,8 @@
-from app.api.models.connectionInfo import ConnectionInfo,RequestBodyConnInfo
-from app.core.database import session
+from app.api.models.connectionInfo import ConnectionInfo
+from app.core.db.database import session
+from app.core.db.transactional import Transactional
+from app.core.db.convert import ConvertSchemaToModel
+from app.api.schema.conenctionInfo import ReqConnectionInfo
 from sqlmodel import select
 from typing import Any
 
@@ -13,49 +16,45 @@ class ConnectionInfoService:
     def __init__(self) -> None:
         pass
 
-    async def register(self,input: ConnectionInfo) -> ConnectionInfo:
-        '''
+    @Transactional(refresh=True)
+    async def register(self, input: ReqConnectionInfo, **kwargs) -> ConnectionInfo:
+        """ """
+        convert_value = ConvertSchemaToModel(
+            model_class=ConnectionInfo, schema_class=input
+        )()
+        session.add(convert_value)
+        return convert_value
 
-        '''
-        session.add(input)
-        await session.commit()
-        return input
-
-    async def update(self,input: RequestBodyConnInfo,id:int )-> ConnectionInfo:
+    @Transactional(refresh=True)
+    async def update(self, input: ReqConnectionInfo, id: int) -> ConnectionInfo:
         information = await self.get(id)
 
         if information:
-
-            for key, value in input.__dict__.items():
-                if value is None or key == "_sa_instance_state":
-                    continue
-                else :
-                    setattr(information,key,value)
+            convert_value = ConvertSchemaToModel(
+                model_class=information, schema_class=input
+            )()
 
         else:
             raise ValueError("Error")
-            
 
-        session.add(information)
-        await session.commit()
-        return "Success"
+        session.add(convert_value)
 
-    async def delete(self,id:int):
+        return convert_value
+
+    async def delete(self, id: int):
         information = await self.get(id)
         await session.delete(information)
         await session.commit()
         return "Success"
 
-    async def get(self,id: int):
-        query = select(ConnectionInfo).where(
-            ConnectionInfo.id == id
-        )
+    async def get(self, id: int):
+        query = select(ConnectionInfo).where(ConnectionInfo.id == id)
 
         information = await session.scalar(query)
 
         return information
 
-    async def getByName(self,connection_name: str):
+    async def getByName(self, connection_name: str):
         query = select(ConnectionInfo).where(
             ConnectionInfo.connection_name == connection_name
         )
@@ -63,8 +62,6 @@ class ConnectionInfoService:
         information = await session.scalar(query)
 
         return information
-
-
 
     async def gets(self):
         query = select(ConnectionInfo)
